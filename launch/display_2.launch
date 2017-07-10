@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+  <arg
+    name="model" />
+
+ 
+
+<!--arg of join_state_publisher -->
+  <arg
+    name="gui"
+    default="False" />
+  <param
+    name="robot_description"
+    textfile="$(find UXALeg)/urdf/UXALeg_3.urdf" />
+  <param
+    name="rate"
+    value="1" />
+  <param
+    name="use_gui"
+    value="$(arg gui)" />
+ <!--param
+    name="source_list"
+    value=["talker/chatter_2"] /-->
+
+  <!--node
+    name="joint_state_publisher" 
+    pkg="joint_state_publisher"
+    type="joint_state_publisher">
+ <rosparam param="source_list">["talker/chatter_2"]</rosparam>
+</node-->
+<!--remap from="input"/-->
+
+ <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="state_publisher"> 
+<remap from="joint_states" to="UXAJointState"/>
+</node>
+
+  <node
+    name="talker"
+    pkg="UXALeg"
+    type="myTalker" /> <!--name of excuable adding in CMake?-->
+
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"/>
+    <!--args="-d $(find UXALeg)/urdf.rviz"/-->
+</launch>
